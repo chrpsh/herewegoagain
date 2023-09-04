@@ -6,7 +6,7 @@ function Unit:new()
 
     --TEMP
 
-    self.speed = 50
+    self.speed = 70
 --	self.last = {}
 --    self.last.x = self.x
 --    self.last.y = self.y
@@ -17,15 +17,22 @@ function Unit:new()
 
     self.width = txt:getWidth(self.str)
     self.height = txt:getHeight(self.str)
-	self.x = window_width/2 - self.width/2
-	self.y = window_height/2 - self.height/2
+	self.x = window_width/2 -- self.width/2
+	self.y = window_height/2 -- self.height/2
 	--self.sight = 40
 
 	self.sight = {}
-	self.sight.long = {}
+	--[[self.sight.long = {}
 	self.sight.area = {}
 	self.sight.width = 200
-	self.sight.height = 200
+	self.sight.height = 200]]
+	self.sight.radius = 100
+
+
+
+	--[[self.sight.x = 0 
+	self.sight.y = 0
+	self.sight.distance = 0]]
 
 	--[[
 	self.sight.x = self.x - self.sight.width/2 + self.width/2
@@ -53,7 +60,7 @@ function Unit:new()
 	--love.graphics.rectangle("line", self.x-self.width/2, self.y-self.height/2, self.width*2, self.height*2)	
 
 
-	self.food = 0 
+	--self.food = 0 
 end
 
 
@@ -78,10 +85,30 @@ function Unit:update(dt)
 
 
 
+	--[[ FOR A RECTANGLE
+
 	self.sight.x = self.x - self.sight.width/2 + self.width/2
 	self.sight.y = self.y - self.sight.height/2 + self.height/2
 
 	self.sight.long.width = self.sight.x + self.sight.width
+	self.sight.long.height = self.sight.y + self.sight.height ]]
+
+	self.sight.x = self.x + self.width/2
+	self.sight.y = self.y + self.height/2
+
+
+	local distx = food.x - self.x
+	local disty = food.y - self.y
+	self.distance = math.sqrt((distx*distx)+(disty*disty))
+
+	--[[if self.distance <= self.sight.radius+food.radius then
+		self.sight.radius = self.sight.radius+food.radius
+		food.radius = 0
+	end]]
+	
+
+
+	--[[self.sight.long.width = self.sight.x + self.sight.width
 	self.sight.long.height = self.sight.y + self.sight.height
 
 	self.sight.area.x = {}
@@ -89,7 +116,12 @@ function Unit:update(dt)
 	self.sight.area.x.min = self.sight.x
 	self.sight.area.x.max = self.sight.area.x.min + self.sight.width
 	self.sight.area.y.min = self.sight.y
-	self.sight.area.y.max = self.sight.area.y.min + self.sight.height
+	self.sight.area.y.max = self.sight.area.y.min + self.sight.height]]
+
+
+--[[	self.sight.x = 0 
+	self.sight.y = 0
+	self.sight.distance = 0 ]]
 
 
 end
@@ -117,25 +149,36 @@ function Unit:draw()
 	--love.graphics.setColor(0,0,255)
 	--love.graphics.rectangle("line", self.x-self.width/2, self.y-self.height/2, self.width*2, self.height*2)
 	love.graphics.setColor(255,255,0)
-	love.graphics.rectangle("line", self.sight.x, self.sight.y, self.sight.width, self.sight.height)
+	--love.graphics.setColor(0,0,255)
+	love.graphics.circle("line", self.x, self.y, self.sight.radius)
+	--love.graphics.setColor(0,0,255)
+	--love.graphics.rectangle("line", self.sight.x, self.sight.y, self.sight.width, self.sight.height)
 	love.graphics.setColor(255,255,255)
+
 
 	local small_height = 12
 
 	love.graphics.setFont(txt_small)
-	love.graphics.print('S.W ' .. self.width .. ' / S.S.W ' .. self.sight.width, 0, small_height*0)
+	
+	if self.distance <= self.sight.radius+food.radius then
+		love.graphics.print('YES', 0, small_height*0)
+	else
+		love.graphics.print('NO', 0, small_height*0)
+	end
+
+	--[[love.graphics.print('S.W ' .. self.width .. ' / S.S.W ' .. self.sight.width, 0, small_height*0)
 	love.graphics.print('S.H ' .. self.height .. ' / S.S.H ' .. self.sight.height, 0, small_height*1)
 	love.graphics.print('S.X ' .. self.x .. ' / S.S.X ' .. self.sight.x, 0, small_height*2)
-	love.graphics.print('S.Y ' .. self.y .. ' / S.S.Y ' .. self.sight.x, 0, small_height*3)
-	love.graphics.print('S.S.L.W ' .. self.sight.long.width, 0, small_height*5)
-	love.graphics.print('S.S.L.H ' .. self.sight.long.height, 0, small_height*6)
+	love.graphics.print('S.Y ' .. self.y .. ' / S.S.Y ' .. self.sight.x, 0, small_height*3)]]
+	--love.graphics.print('S.S.L.W ' .. self.sight.long.width, 0, small_height*5)
+	--love.graphics.print('S.S.L.H ' .. self.sight.long.height, 0, small_height*6)
 
-	love.graphics.print('SIGHT ', 0, small_height*8)
+	--[[love.graphics.print('SIGHT ', 0, small_height*8)
 	love.graphics.print('X ' .. self.sight.area.x.min .. ' — ' .. self.sight.area.x.max, 0, small_height*9)
 	love.graphics.print('Y ' .. self.sight.area.y.min .. ' — ' .. self.sight.area.y.max, 0, small_height*10)
 	love.graphics.print('FOOD ', 0, small_height*12)
 	love.graphics.print('X ' .. food.x .. ' — ' .. food.x+food.width, 0, small_height*13)
-	love.graphics.print('Y ' .. food.y .. ' — ' .. food.y + food.height, 0, small_height*14)
+	love.graphics.print('Y ' .. food.y .. ' — ' .. food.y + food.height, 0, small_height*14)]]
 
 	--[[if self.sight.area.x.min <= food.x + food.width and self.sight.area.x.max >= food.x then
 		love.graphics.print('X YES', 0, small_height*16)
@@ -162,12 +205,12 @@ function Unit:draw()
 	end]]
 
 
-	if self.sight.area.x.min <= food.x + food.width and self.sight.area.x.max >= food.x 
+	--[[if self.sight.area.x.min <= food.x + food.width and self.sight.area.x.max >= food.x 
 		and self.sight.area.y.min <= food.y and self.sight.area.y.max >= food.y then
 		love.graphics.print('YES', 0, small_height*17)
 	else
 		love.graphics.print('NO', 0, small_height*17)
-	end
+	end]]
 
 	love.graphics.setFont(txt)
 
