@@ -30,13 +30,14 @@ function love.update(dt)
 end
 
 function love.keypressed(key)
-	--unit:keyPressed(key)
+	unit:keyPressed(key)
 end
 
 function love.draw()
 	love.graphics.setFont(txt)
-	unit:draw()
 	food:draw()
+	unit:draw()
+	
 	--love.graphics.print('heh', 20, 20)
 	--setColor:draw('red')
 end
