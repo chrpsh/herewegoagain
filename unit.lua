@@ -6,7 +6,7 @@ function Unit:new()
 
     --TEMP
 
-    self.speed = 20
+    self.speed = 50
 --	self.last = {}
 --    self.last.x = self.x
 --    self.last.y = self.y
@@ -176,7 +176,19 @@ function Unit:update(dt)
 	self.step.x = distx/t
 	self.step.y = disty/t]]
 
-	coeff = 0
+
+	angle = math.atan2(food.y - self.y, food.x - self.x)
+    cos = math.cos(angle)
+    sin = math.sin(angle)
+    self.x = self.x + self.speed * cos * dt
+    self.y = self.y + self.speed * sin * dt
+
+
+
+
+
+
+--[[	coeff = 0
 
 	if distx > 0 and disty > 0 then
 		if distx < disty then
@@ -231,7 +243,7 @@ function Unit:update(dt)
 			end
 
 		end
-	end
+	end]]
 
 
 
@@ -395,7 +407,7 @@ function Unit:draw()
 	love.graphics.print('DIST Y: ' .. math.abs(food.y - self.y), 0, small_height*24)
 	love.graphics.print('(DIST Y): ' .. math.abs(food.y - self.y), 0, small_height*25)
 
-	love.graphics.print('COEFF: ' .. coeff, 0, small_height*27)
+	--love.graphics.print('COEFF: ' .. coeff, 0, small_height*27)
 
 	love.graphics.print('SPEED: ' .. self.speed, 0, small_height*28)
 	--love.graphics.print('(COEFF): ' .. math.sqrt((math.abs(food.x - self.save.x)*math.abs(food.x - self.save.x))+(math.abs(food.y - self.y)*math.abs(food.y - self.y))), 0, small_height*28)
