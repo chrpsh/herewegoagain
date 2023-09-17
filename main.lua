@@ -10,7 +10,14 @@ function love.load()
 	food = require "food"
 
 	unit = Unit()
-	food = Food()
+	--food = Food()
+
+	amount = 25
+
+	food = {}
+	for i=1,amount do
+    	food[i] = Food(--[['%']]tostring(i))
+	end
 	--setColor = require "setColor"
 	--setColor = setColor()
 	
@@ -31,11 +38,17 @@ end
 
 function love.keypressed(key)
 	unit:keyPressed(key)
+	for i,v in ipairs(food) do
+		food[i]:keyPressed(key)
+	end
 end
 
 function love.draw()
 	love.graphics.setFont(txt)
-	food:draw()
+	for i,v in ipairs(food) do
+		food[i]:draw()
+	end
+	
 	unit:draw()
 	
 	--love.graphics.print('heh', 20, 20)

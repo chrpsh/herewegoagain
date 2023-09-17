@@ -1,7 +1,7 @@
 Food = Object:extend()
 
 
-function Food:new()
+function Food:new(x)
 	--window_width = love.graphics.getWidth()
     --window_height = love.graphics.getHeight()
 
@@ -12,11 +12,16 @@ function Food:new()
 	self.x = window_width/4 - self.width/2
 	self.y = window_height/2 - self.height/2]]
 
-	self.str = '%'
-	self.x = window_width/2
-	self.y = window_height/2
+	self.str = x
+	self.x = math.random(0,window_width)
+	self.y = math.random(0,window_height)
 
+
+	--self.save = {}
+	--self.save.x = self.x
+	--self.save.y = self.y
 	
+
 	--self.radius = 30
 
 	self.sym = {}
@@ -36,6 +41,23 @@ function Food:new()
 end
 
 
+function Food:keyPressed(key)
+	if key == "space" then
+	    self.x = math.random(0,window_width)
+		self.y = math.random(0,window_height)
+		--self.save.x = self.x
+		--self.save.y = self.y
+		self.sym.x = self.x - txt:getWidth(self.str)/2
+		self.sym.y = self.y - txt:getHeight(self.str)/2
+		--unit.x = window_width/2
+		--unit.y = window_height/2
+	elseif key == "return" then
+		if self.go then self.go = false else self.go = true end
+	end
+end
+
+
+
 function Food:update(dt)
 
 end
@@ -52,10 +74,10 @@ function Food:draw()
 
 	local small_height = 12
 
-	love.graphics.setFont(txt_small)
+	--[[love.graphics.setFont(txt_small)
 	love.graphics.print(txt:getHeight(self.str), 0, small_height*2)
 	love.graphics.print(txt:getWidth(self.str), 0, small_height*3)
-	love.graphics.print(self.radius, 0, small_height*4)
+	love.graphics.print(self.radius, 0, small_height*4)]]
 
 	love.graphics.setFont(txt)
 
